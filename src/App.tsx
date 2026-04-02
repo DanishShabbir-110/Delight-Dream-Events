@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Instagram, Facebook, MessageCircle, Phone, Menu, X } from 'lucide-react';
-import { motion } from 'framer-motion'; // 'motion/react' ki jagah 'framer-motion' standard hai
+import { motion } from 'framer-motion';
 
 // ==========================================
 // TYPES & INTERFACES
@@ -17,6 +17,14 @@ interface EventCategory {
   title: string;
   description: string;
   items: EventItem[];
+}
+
+interface TeamMember {
+  id: number;
+  name: string;
+  role: string;
+  phone: string;
+  image: string;
 }
 
 // ==========================================
@@ -81,7 +89,6 @@ Object.entries(rawFiles).forEach(([path, fileUrl]) => {
 
 let dynamicEventCategories: EventCategory[] = Array.from(eventsMap.values());
 
-// Fallback data agar assets na milein
 if (dynamicEventCategories.length === 0) {
   dynamicEventCategories = [
     {
@@ -97,13 +104,13 @@ const navLinks = [
   { name: 'Contact', href: '#contact' },
 ];
 
-const team = [
+const team: TeamMember[] = [
   { id: 1, name: 'Masoor Ahmed', role: 'Lead Decorator', phone: '0321-5261825', image: masoorImg },
   { id: 2, name: 'Ghulam Muneeb', role: 'Event Manager', phone: '0320-5704734', image: muneebImg },
   { id: 3, name: 'Nouman Shabbir', role: 'Creative Director', phone: '0315-5601673', image: noumanImg },
 ];
 
-// --- Components ---
+// --- Sub-Components ---
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -165,28 +172,75 @@ const MediaCard = ({ item }: { item: EventItem }) => {
   );
 };
 
+const TeamCard = ({ member }: { member: TeamMember }) => {
+  // WhatsApp Number Logic
+  const whatsappNumber = member.phone.replace(/[- ]/g, '');
+  const cleanNumber = whatsappNumber.startsWith('0') ? `92${whatsappNumber.slice(1)}` : whatsappNumber;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="relative group overflow-hidden rounded-full aspect-square w-64 mx-auto shadow-2xl border-4 border-neutral-800 hover:border-amber-500/50 transition-colors duration-500"
+    >
+      <img
+        src={member.image}
+        alt={member.name}
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6 rounded-full">
+        <h3 className="text-xl font-serif font-bold text-amber-400 mb-1">{member.name}</h3>
+        <p className="text-neutral-300 text-xs mb-4 uppercase tracking-widest">{member.role}</p>
+        
+        {/* WhatsApp Chat Link */}
+        <a 
+          href={`https://wa.me/${cleanNumber}`} 
+          target="_blank"
+          rel="noreferrer"
+          className="text-white text-sm font-medium hover:text-amber-400 transition-colors flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm border border-white/10"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <MessageCircle size={14} className="text-[#25D366]" />
+          {member.phone}
+        </a>
+      </div>
+    </motion.div>
+  );
+};
+
+// ==========================================
+// MAIN APP COMPONENT
+// ==========================================
 export default function App() {
   return (
-    <div className="min-h-screen bg-black text-neutral-200">
+    <div className="min-h-screen bg-black text-neutral-200 selection:bg-amber-500/30">
       <Navbar />
-      <header id="home" className="relative pt-32 pb-32 flex flex-col items-center text-center min-h-screen justify-center px-4">
+      
+      {/* Hero Section */}
+      <header id="home" className="relative pt-32 pb-32 flex flex-col items-center text-center min-h-screen justify-center px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none"></div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="z-10">
           <img src={finalLogoUrl} alt="Logo" className="w-48 h-48 mx-auto mb-10 rounded-full shadow-2xl ring-1 ring-white/10" />
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-amber-400 mb-6">Delight Dream <span className="block text-3xl mt-2 tracking-widest text-amber-500/80 uppercase">Events</span></h1>
-          <p className="max-w-2xl text-lg text-neutral-400 mb-10">𝐘𝐨𝐮𝐫 𝐜𝐞𝐥𝐞𝐛𝐫𝐚𝐭𝐢𝐨𝐧𝐬 𝐝𝐞𝐬𝐞𝐫𝐯𝐞 𝐦𝐨𝐫𝐞 𝐭𝐡𝐚𝐧 𝐣𝐮𝐬𝐭 𝐚 𝐬𝐞𝐭𝐮𝐩—𝐭𝐡𝐞𝐲 𝐝𝐞𝐬𝐞𝐫𝐯𝐞 𝐚 𝐦𝐚𝐬𝐭𝐞𝐫𝐩𝐢𝐞𝐜𝐞. 𝐖𝐞 𝐬𝐩𝐞𝐜𝐢𝐚𝐥𝐢𝐳𝐞 𝐢𝐧 𝐜𝐫𝐞𝐚𝐭𝐢𝐧𝐠 𝐛𝐫𝐞𝐚𝐭𝐡𝐭𝐚𝐤𝐢𝐧𝐠 𝐞𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭𝐬 𝐟𝐨𝐫 𝐰𝐞𝐝𝐝𝐢𝐧𝐠𝐬, 𝐛𝐢𝐫𝐭𝐡𝐝𝐚𝐲𝐬, 𝐚𝐧𝐝 𝐜𝐨𝐫𝐩𝐨𝐫𝐚𝐭𝐞 𝐠𝐚𝐭𝐡𝐞𝐫𝐢𝐧𝐠𝐬, 𝐜𝐨𝐦𝐛𝐢𝐧𝐢𝐧𝐠 𝐜𝐫𝐞𝐚𝐭𝐢𝐯𝐞 𝐢𝐧𝐧𝐨𝐯𝐚𝐭𝐢𝐨𝐧 𝐰𝐢𝐭𝐡 𝐟𝐥𝐚𝐰𝐥𝐞𝐬𝐬 𝐞𝐱𝐞𝐜𝐮𝐭𝐢𝐨𝐧 𝐭𝐨 𝐦𝐚𝐤𝐞 𝐲𝐨𝐮𝐫 𝐬𝐩𝐞𝐜𝐢𝐚𝐥 𝐦𝐨𝐦𝐞𝐧𝐭𝐬 𝐭𝐫𝐮𝐥𝐲 𝐮𝐧𝐟𝐨𝐫𝐠𝐞𝐭𝐭𝐚𝐛𝐥𝐞.</p>
+          <p className="max-w-3xl text-lg text-neutral-400 mb-10 leading-relaxed font-light italic">
+            "Your celebrations deserve more than just a setup—they deserve a masterpiece. We specialize in creating breathtaking environments for weddings, birthdays, and corporate gatherings, combining creative innovation with flawless execution to make your special moments truly unforgettable."
+          </p>
           <div className="flex justify-center gap-6">
-            <a href="https://www.instagram.com/delightdreamevents?igsh=MXdzNnluMjAzbWhsNw==" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all"><Instagram size={24} /></a>
-            <a href="https://www.facebook.com/share/1CfSUe3xok/" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all"><Facebook size={24} /></a>
-            <a href="https://www.tiktok.com/@delight.dream.events?_r=1&_t=ZS-95CXCg0FamT" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all"><TikTokIcon size={24} /></a>
+            <a href="https://www.instagram.com/delightdreamevents?igsh=MXdzNnluMjAzbWhsNw==" target="_blank" rel="noreferrer" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all shadow-lg hover:-translate-y-1"><Instagram size={24} /></a>
+            <a href="https://www.facebook.com/share/1CfSUe3xok/" target="_blank" rel="noreferrer" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all shadow-lg hover:-translate-y-1"><Facebook size={24} /></a>
+            <a href="https://www.tiktok.com/@delight.dream.events?_r=1&_t=ZS-95CXCg0FamT" target="_blank" rel="noreferrer" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all shadow-lg hover:-translate-y-1"><TikTokIcon size={24} /></a>
           </div>
         </motion.div>
       </header>
 
+      {/* Dynamic Sections */}
       {dynamicEventCategories.map((category) => (
-        <section key={category.id} id={category.id} className="py-16 px-4 max-w-7xl mx-auto">
+        <section key={category.id} id={category.id} className="py-20 px-4 max-w-7xl mx-auto border-t border-neutral-900/50">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-serif font-bold text-white mb-4">{category.title}</h2>
-            <p className="text-neutral-400">{category.description}</p>
+            <div className="w-16 h-1 bg-amber-500/50 mx-auto mb-6"></div>
+            <p className="text-neutral-400 max-w-2xl mx-auto">{category.description}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {category.items.map((item) => <MediaCard key={item.id} item={item} />)}
@@ -194,35 +248,35 @@ export default function App() {
         </section>
       ))}
 
-      <section id="team" className="py-16 bg-neutral-950 px-4">
-        <h2 className="text-center text-4xl font-serif font-bold mb-20 text-white">Our Team</h2>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
-          {team.map(member => (
-            <div key={member.id} className="text-center group">
-              <img src={member.image} className="w-48 h-48 rounded-full mx-auto object-cover border-4 border-neutral-800 group-hover:border-amber-500 transition-all" />
-              <h3 className="text-xl font-bold mt-4 text-amber-400">{member.name}</h3>
-              <p className="text-neutral-500">{member.role}</p>
-              <p className="text-sm text-neutral-400 mt-2">{member.phone}</p>
-            </div>
-          ))}
+      {/* Team Section */}
+      <section id="team" className="py-24 px-4 sm:px-6 lg:px-8 bg-neutral-950/90 backdrop-blur-md border-y border-neutral-900 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6">Meet Our Team</h2>
+            <p className="text-neutral-400 max-w-2xl mx-auto text-lg italic">The creative minds behind your perfect events. Contact With them.</p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {team.map(member => (
+              <TeamCard key={member.id} member={member} />
+            ))}
+          </div>
         </div>
       </section>
 
-      <section id="contact" className="py-16 text-center px-4">
-         <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-8 tracking-tight">Let's Plan Your Event</h2>
-          <p className="text-xl text-neutral-400 mb-12 font-light">Ready to make your dream event a reality? Get in touch with us directly via WhatsApp for a consultation.</p>
-        <a href="https://wa.me/923155601673" className="inline-flex items-center gap-3 bg-[#25D366] px-8 py-4 rounded-full text-white font-bold hover:scale-105 transition-transform">
-          <MessageCircle size={24} /> Chat on WhatsApp
+      {/* Contact Section */}
+      <section id="contact" className="py-24 text-center px-4 bg-black relative">
+        <div className="absolute inset-0 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+        <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-8">Let's Plan Your Event</h2>
+        <p className="text-xl text-neutral-400 mb-12 font-light max-w-2xl mx-auto">Ready to make your dream event a reality? Get in touch with us directly via WhatsApp for a consultation.</p>
+        <a href="https://wa.me/923155601673" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 bg-[#25D366] px-10 py-5 rounded-full text-white text-xl font-bold hover:scale-105 transition-transform shadow-xl">
+          <MessageCircle size={28} /> Chat on WhatsApp
         </a>
       </section>
+
       {/* Footer */}
       <footer className="py-12 text-center border-t border-neutral-900 text-neutral-500 bg-[#050505]">
-        <img
-          src={finalLogoUrl}
-          alt="Delight Dream Events Logo"
-          className="w-16 h-16 object-contain mx-auto mb-6 rounded-full shadow-2xl ring-1 ring-white/10"
-          referrerPolicy="no-referrer"
-        />
+        <img src={finalLogoUrl} alt="Footer Logo" className="w-16 h-16 mx-auto mb-6 rounded-full shadow-2xl ring-1 ring-white/10" />
         <p>&copy; {new Date().getFullYear()} Delight Dream Events. All rights reserved.</p>
       </footer>
     </div>
