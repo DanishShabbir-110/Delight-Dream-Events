@@ -1,0 +1,9 @@
+Yahan apne events ke folders banayen.
+
+Misaal ke tor par:
+1. src/assets/events/Mehndi/
+2. src/assets/events/Barat/
+3. src/assets/events/Birthday/
+
+In folders ke andar apni pictures (.jpg, .png) aur videos (.mp4) upload karain.
+Website khud ba khud in folders ko read kar ke Navbar aur Sections bana de gi!

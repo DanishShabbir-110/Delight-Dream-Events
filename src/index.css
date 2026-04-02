@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-dark: #0a0a0a;
+  --color-brand-light: #1a1814;
+  --color-brand-gold: #D4AF37;
+  --color-brand-gold-light: #F3E5AB;
+}
+
+.bg-animated {
+  background: linear-gradient(-45deg, #0a0a0a, #1a1814, #111111, #1f1a10);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+html {
+  scroll-behavior: smooth;
+}
