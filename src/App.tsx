@@ -139,7 +139,7 @@ const Navbar = () => {
         </button>
       </div>
       {isOpen && (
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="md:hidden absolute top-full left-0 right-0 bg-[#0a0a0a]/95 py-4 px-4 flex flex-col gap-4">
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="md:hidden absolute top-full left-0 right-0 bg-[#0a0a0a]/95 py-4 px-4 flex flex-col gap-4 shadow-2xl">
           {navLinks.map((link) => (
             <a key={link.name} href={link.href} onClick={() => setIsOpen(false)} className="text-lg text-neutral-300 py-2 border-b border-neutral-800/50">{link.name}</a>
           ))}
@@ -165,7 +165,7 @@ const MediaCard = ({ item }: { item: EventItem }) => {
       ) : (
         <img src={item.src} alt="Event" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
       )}
-      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center">
+      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center p-4 text-center">
         <p className="text-white text-2xl font-bold">{item.price}</p>
       </div>
     </motion.div>
@@ -173,7 +173,6 @@ const MediaCard = ({ item }: { item: EventItem }) => {
 };
 
 const TeamCard = ({ member }: { member: TeamMember }) => {
-  // WhatsApp Number Logic
   const whatsappNumber = member.phone.replace(/[- ]/g, '');
   const cleanNumber = whatsappNumber.startsWith('0') ? `92${whatsappNumber.slice(1)}` : whatsappNumber;
 
@@ -184,16 +183,10 @@ const TeamCard = ({ member }: { member: TeamMember }) => {
       viewport={{ once: true }}
       className="relative group overflow-hidden rounded-full aspect-square w-64 mx-auto shadow-2xl border-4 border-neutral-800 hover:border-amber-500/50 transition-colors duration-500"
     >
-      <img
-        src={member.image}
-        alt={member.name}
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-      />
+      <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
       <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6 rounded-full">
         <h3 className="text-xl font-serif font-bold text-amber-400 mb-1">{member.name}</h3>
         <p className="text-neutral-300 text-xs mb-4 uppercase tracking-widest">{member.role}</p>
-        
-        {/* WhatsApp Chat Link */}
         <a 
           href={`https://wa.me/${cleanNumber}`} 
           target="_blank"
@@ -217,21 +210,65 @@ export default function App() {
     <div className="min-h-screen bg-black text-neutral-200 selection:bg-amber-500/30">
       <Navbar />
       
-      {/* Hero Section */}
-      <header id="home" className="relative pt-32 pb-32 flex flex-col items-center text-center min-h-screen justify-center px-4 overflow-hidden">
+      {/* Hero Section: Split Layout with Proper Spacing */}
+      <header id="home" className="relative pt-32 pb-20 min-h-screen flex items-center justify-center px-4 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none"></div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="z-10">
-          <img src={finalLogoUrl} alt="Logo" className="w-48 h-48 mx-auto mb-10 rounded-full shadow-2xl ring-1 ring-white/10" />
-          <h1 className="text-5xl md:text-7xl font-serif font-bold text-amber-400 mb-6">Delight Dream <span className="block text-3xl mt-2 tracking-widest text-amber-500/80 uppercase">Events</span></h1>
-          <p className="max-w-3xl text-lg text-neutral-400 mb-10 leading-relaxed font-light italic">
-            "Your celebrations deserve more than just a setup—they deserve a masterpiece. We specialize in creating breathtaking environments for weddings, birthdays, and corporate gatherings, combining creative innovation with flawless execution to make your special moments truly unforgettable."
-          </p>
-          <div className="flex justify-center gap-6">
-            <a href="https://www.instagram.com/delightdreamevents?igsh=MXdzNnluMjAzbWhsNw==" target="_blank" rel="noreferrer" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all shadow-lg hover:-translate-y-1"><Instagram size={24} /></a>
-            <a href="https://www.facebook.com/share/1CfSUe3xok/" target="_blank" rel="noreferrer" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all shadow-lg hover:-translate-y-1"><Facebook size={24} /></a>
-            <a href="https://www.tiktok.com/@delight.dream.events?_r=1&_t=ZS-95CXCg0FamT" target="_blank" rel="noreferrer" className="p-4 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all shadow-lg hover:-translate-y-1"><TikTokIcon size={24} /></a>
-          </div>
-        </motion.div>
+        
+        {/* lg:gap-32 and lg:pr-20 handle the spacing you requested */}
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center z-10 px-6 lg:pr-20">
+          
+          {/* Left Side: Name & Description */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            transition={{ duration: 0.8 }}
+            className="text-center lg:text-left order-2 lg:order-1"
+          >
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-amber-400 mb-6 leading-tight">
+              Delight Dream 
+              <span className="block text-3xl md:text-5xl mt-2 tracking-widest text-amber-500/80 uppercase">Events</span>
+            </h1>
+            <p className="max-w-2xl text-lg md:text-xl text-neutral-400 mb-10 leading-relaxed font-light italic mx-auto lg:mx-0">
+              "Your celebrations deserve more than just a setup—they deserve a masterpiece. We specialize in creating breathtaking environments for weddings, birthdays, and corporate gatherings, combining creative innovation with flawless execution."
+            </p>
+            
+            <div className="flex flex-wrap justify-center lg:justify-start gap-6">
+              <a href="https://wa.me/923155601673" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 bg-[#25D366] px-8 py-3 rounded-full text-white font-bold hover:scale-105 transition-transform shadow-lg">
+                <MessageCircle size={20} /> Let's Plan Your Event
+              </a>
+              <div className="flex gap-4">
+                <a href="https://www.instagram.com/delightdreamevents" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all border border-neutral-800 shadow-xl"><Instagram size={22} /></a>
+                <a href="https://www.facebook.com/share/1CfSUe3xok/" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all border border-neutral-800 shadow-xl"><Facebook size={22} /></a>
+                <a href="https://www.tiktok.com/@delight.dream.events" target="_blank" rel="noreferrer" className="p-3 rounded-full bg-neutral-900 text-amber-500 hover:bg-amber-500 hover:text-black transition-all border border-neutral-800 shadow-xl"><TikTokIcon size={22} /></a>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Side: Large Logo with Right Spacing */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50, scale: 0.8 }} 
+            animate={{ opacity: 1, x: 0, scale: 1 }} 
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex justify-center lg:justify-end order-1 lg:order-2"
+          >
+            <div className="relative">
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="relative z-10"
+              >
+                {/* Size increased to 400px (w-[400px]) for a 'Bada Sa' look */}
+                <img 
+                  src={finalLogoUrl} 
+                  alt="Delight Dream Logo" 
+                  className="w-64 h-64 md:w-[400px] md:h-[400px] object-contain rounded-full shadow-[0_0_80px_rgba(245,158,11,0.2)] ring-2 ring-amber-500/20 bg-black" 
+                />
+              </motion.div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-amber-500/10 blur-[100px] rounded-full"></div>
+            </div>
+          </motion.div>
+
+        </div>
       </header>
 
       {/* Dynamic Sections */}
@@ -254,7 +291,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-20">
             <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6">Meet Our Team</h2>
-            <p className="text-neutral-400 max-w-2xl mx-auto text-lg italic">The creative minds behind your perfect events. Contact With them.</p>
+            <p className="text-neutral-400 max-w-2xl mx-auto text-lg italic">The creative minds behind your perfect events. Contact With Us.</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {team.map(member => (
