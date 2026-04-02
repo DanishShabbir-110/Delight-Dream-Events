@@ -133,7 +133,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <a href="#home" className="flex items-center gap-3 group">
           <img src={finalLogoUrl} alt="Logo" className="w-10 h-10 rounded-full object-cover ring-2 ring-amber-500/30 group-hover:ring-amber-500 transition-all duration-300" />
-          <span className="font-serif font-bold text-xl text-amber-400 hidden sm:block tracking-wide">Delight Dream</span>
+          <span className="font-serif font-bold text-xl text-amber-400 hidden sm:block tracking-wide">Delight Dream Event</span>
         </a>
         
         <div className="hidden md:flex items-center gap-8">
@@ -220,7 +220,7 @@ export default function App() {
           </motion.div>
           
           <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-center lg:text-left order-2">
-            <h1 className="text-5xl md:text-8xl font-serif font-bold text-amber-400 mb-6 leading-tight">Delight Dream <span className="block text-3xl md:text-5xl mt-2 tracking-widest text-amber-500/80 uppercase">Events</span></h1>
+            <h1 className="text-5xl md:text-8xl font-serif font-bold text-amber-400 mb-6 leading-tight">Delight Dream Event <span className="block text-3xl md:text-5xl mt-2 tracking-widest text-amber-500/80 uppercase">Events</span></h1>
             <p className="max-w-xl text-lg text-neutral-400 mb-10 italic mx-auto lg:mx-0">"Turning your celebrations into masterpieces with creative innovation and flawless execution."</p>
             <div className="flex justify-center lg:justify-start gap-4">
               <a href="https://instagram.com/delightdreamevents" target="_blank" className="p-3 rounded-full bg-neutral-900 border border-neutral-800 text-amber-500 hover:bg-amber-500 hover:text-black transition-all shadow-xl"><Instagram size={22} /></a>
@@ -253,7 +253,7 @@ export default function App() {
       <section id="team" className="py-24 bg-neutral-950/50 border-y border-neutral-900 scroll-mt-24">
         <div className="max-w-7xl mx-auto text-center mb-20">
           <h2 className="text-4xl font-serif font-bold text-white mb-4">Meet Our Team</h2>
-          <p className="text-neutral-500 italic">The experts behind the magic. Hover to see details.</p>
+          <p className="text-neutral-500 italic">The experts behind the magic.Connect With us.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 px-6">
           {team.map(member => (
@@ -263,14 +263,15 @@ export default function App() {
       </section>
 
       <section id="contact" className="py-24 text-center px-4 bg-black scroll-mt-24">
-        <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-8 tracking-tighter">Ready to Begin?</h2>
+        <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-8 tracking-tight">Let's Plan Your Event</h2>
+          <p className="text-xl text-neutral-400 mb-12 font-light">Ready to make your dream event a reality? Get in touch with us directly via WhatsApp for a consultation.</p>
         <a href="https://wa.me/923155601673" target="_blank" className="inline-flex items-center gap-3 bg-[#25D366] px-10 py-5 rounded-full text-white text-xl font-bold hover:scale-105 transition-transform shadow-xl">
           <MessageCircle size={28} /> Chat on WhatsApp
         </a>
       </section>
 
       <footer className="py-16 text-center border-t border-neutral-900 bg-black">
-        <img src={finalLogoUrl} alt="Footer Logo" className="w-16 h-16 mx-auto mb-6 rounded-full opacity-50 grayscale" />
+        <img src={finalLogoUrl} alt="Footer Logo" className="w-16 h-16 mx-auto mb-6 rounded-full shadow-[0_0_80px_rgba(245,158,11,0.2)] ring-2 ring-amber-500/20 bg-black" />
         <p className="text-xs tracking-widest text-neutral-600 uppercase">&copy; {new Date().getFullYear()} Delight Dream Events. All rights reserved.</p>
       </footer>
 
