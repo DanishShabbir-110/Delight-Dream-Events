@@ -207,7 +207,7 @@ const TeamCard = ({ member }: { member: TeamMember }) => {
 // ==========================================
 export default function App() {
   return (
-    <div className="min-h-screen bg-black text-neutral-200 selection:bg-amber-500/30">
+    <div className="min-h-screen bg-animated text-neutral-200 selection:bg-amber-500/30">
       <Navbar />
       
       {/* Hero Section: Split Layout with Proper Spacing */}
@@ -318,4 +318,4 @@ export default function App() {
       </footer>
     </div>
   );
-}
+} 
